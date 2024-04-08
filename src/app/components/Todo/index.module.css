@@ -1,0 +1,78 @@
+.container {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 100px;
+    border: 2px dashed rgb(0, 0, 0);
+    border-radius: 20px;
+    background-color: aliceblue;
+}
+
+.mainDiv {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.container h1 {
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.arrowImage {
+    width: 30px;
+}
+
+.todoList {
+    width: 65%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid black;
+    margin-top: 2px;
+}
+
+.todoList li {
+    font-family: cursive;
+    color: rgb(0, 0, 0);
+}
+
+.inputBox {
+    width: 400px;
+    height: 30px;
+}
+
+.inputBox::placeholder {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.todoList li {
+    list-style-type: none;
+}
+
+.footer {
+    justify-content: center;
+    display: flex;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.footer button,
+.mainDiv button {
+    margin-left: 10px;
+    width: auto;
+    height: 30px;
+    background-color: rgb(139, 203, 224);
+    border: transparent;
+    border-radius: 5px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.checked {
+    text-decoration: line-through;
+    color: rgb(0, 0, 0);
+    background-color: greenyellow;
+}
