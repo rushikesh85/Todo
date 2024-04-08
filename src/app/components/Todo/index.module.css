@@ -20,6 +20,7 @@
 
 .arrowImage {
     width: 30px;
+    cursor: pointer;
 }
 
 .todoList {
@@ -40,6 +41,9 @@
 .inputBox {
     width: 400px;
     height: 30px;
+}
+.crossImage{
+    cursor: pointer;
 }
 
 .inputBox::placeholder {
@@ -69,6 +73,7 @@
     border-radius: 5px;
     font-family: monospace;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .checked {

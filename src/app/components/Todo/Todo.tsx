@@ -4,70 +4,13 @@
 
 import React, { SetStateAction, useState } from 'react';
 import Style from './index.module.css';
-
-type TodoItem = {
-  text: string;
-  checked: boolean;
-};
+import useCustomHooks from '@/useCustomHooks';
 
 function Todo() {
-  const [todo, setTodo] = useState<TodoItem[]>([]);
-  const [value, addValue] = useState<string>('');
-  const [item, setItem] = useState<number>(0);
-  const [filter, setFilter] = useState<'All' | 'Active' | 'Completed'>('All');
-
-  function onClickBtn() {
-    if (value.trim() !== '') {
-      setTodo([...todo, { text: value, checked: false }]);
-      addValue('');
-      setItem(item + 1);
-    }
-  }
-
-  function inputValue(e: { target: { value: SetStateAction<string> } }) {
-    addValue(e.target.value);
-  }
-
-  function deleteValue(index: number) {
-    const updatedTodo = [...todo];
-    const deletedItem = updatedTodo[index];
-    updatedTodo.splice(index, 1);
-    setTodo(updatedTodo);
-    if (!deletedItem.checked) {
-      setItem(item - 1);
-    }
-  }
-
-  function checkBoxHandler(index: number, checked: boolean) {
-    const updatedTodo = [...todo];
-    updatedTodo[index] = { ...updatedTodo[index], checked };
-    setTodo(updatedTodo);
-    if (checked) {
-      setItem(item - 1);
-    } else {
-      setItem(item + 1);
-    }
-  }
-
-  function handleFilterChange(filter: 'All' | 'Active' | 'Completed') {
-    setFilter(filter);
-  }
+  const [todo, value, item, filter, onClickBtn, inputValue, deleteValue, checkBoxHandler, handleFilterChange, clearCompletedItems, checkAllTodos] = useCustomHooks();
 
   const filteredTodo = filter === 'All' ? todo : filter === 'Active' ? todo.filter(item => !item.checked) : todo.filter(item => item.checked);
   const itemsLeft = filter === 'All' ? item : todo.filter(todoItem => !todoItem.checked).length;
-
-  function clearCompletedItems() {
-    const updatedTodo = todo.filter(todoItem => !todoItem.checked);
-    setTodo(updatedTodo);
-  }
-
-  function checkAllTodos() {
-    const allChecked = todo.every(todoItem => todoItem.checked);
-    const updatedTodo = todo.map(todoItem => ({ ...todoItem, checked: !allChecked }));
-    setTodo(updatedTodo);
-    setItem(allChecked ? todo.length : 0);
-  }
-
 
   return (
     <div className={Style.container}>
@@ -82,7 +25,7 @@ function Todo() {
           <div className={`${Style.todoList} ${todoItem.checked ? Style.checked : ''}`} key={index}>
             <input type="checkbox" onChange={(e) => checkBoxHandler(index, e.target.checked)} checked={todoItem.checked} />
             <li>{todoItem.text}</li>
-            <img onClick={() => deleteValue(index)} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAg9JREFUSEulVtF1wzAIPDZJNoknqTNJR0k7SbxJu4n6JGELhLDwq3+SZ2MOjjtkQn8RgATwj3k8v+ElIBBSTl0uagA+lIxpL0fid5TaTLtyEcclE3XV2feApOO7zD4xghAHuqUKQ3iBhhzV8WCukUQlxp+rZEKPTDEfJszTZJaNGsxZ7TqJ7GAwqatq9+KFuKZ6qDbohcZ3pVVOLcqNWWA7sxsBn4nwjYRtXN5RzgPAi4B7dY+cvR3BZCfQG0g54S+AJwHbsQR09znmzcly7P2AHtAUoXrNXYiET8B0XkFbg0sibP0G7IU28LFZIGvywR9AYWXPs7TCPJuplamF00Z9FLEC9GKAQjsjFXoZQoD2M9brM0K11EClvaJk8Ft9WG50oNYDiuqIL7uYFYSXXvqw9J5K1j0kBjul3WL1HuXstG/K5AMnXeyYZ1zfkpaR1TXwiTn3x3XGEb6RQVm9NT7Tm2c8tpov6ArZMHuXqZO773QBaOM1GfF5x8PsWKzhApTVy8tBZLPgNkaBO1Qr7n+abaR6zTCl2r+Ez62B+ZtuIAdF+42Q3qksDNomJ3ZeMh+EtKhBDYQUXyATARqtOAeD/so0uvKENrjfduuEObsbLr0QtOnUonGqJytw/FGnddVSkPTx6ZoMNzpsVY6D/zsd+zMef1v5yvMkIDaXP5bYRpVEzj+TAx3Lgv5Xgnz7D9KX6ifzuTSnAAAAAElFTkSuQmCC" />
+            <img className={Style.crossImage} onClick={() => deleteValue(index)} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAg9JREFUSEulVtF1wzAIPDZJNoknqTNJR0k7SbxJu4n6JGELhLDwq3+SZ2MOjjtkQn8RgATwj3k8v+ElIBBSTl0uagA+lIxpL0fid5TaTLtyEcclE3XV2feApOO7zD4xghAHuqUKQ3iBhhzV8WCukUQlxp+rZEKPTDEfJszTZJaNGsxZ7TqJ7GAwqatq9+KFuKZ6qDbohcZ3pVVOLcqNWWA7sxsBn4nwjYRtXN5RzgPAi4B7dY+cvR3BZCfQG0g54S+AJwHbsQR09znmzcly7P2AHtAUoXrNXYiET8B0XkFbg0sibP0G7IU28LFZIGvywR9AYWXPs7TCPJuplamF00Z9FLEC9GKAQjsjFXoZQoD2M9brM0K11EClvaJk8Ft9WG50oNYDiuqIL7uYFYSXXvqw9J5K1j0kBjul3WL1HuXstG/K5AMnXeyYZ1zfkpaR1TXwiTn3x3XGEb6RQVm9NT7Tm2c8tpov6ArZMHuXqZO773QBaOM1GfF5x8PsWKzhApTVy8tBZLPgNkaBO1Qr7n+abaR6zTCl2r+Ez62B+ZtuIAdF+42Q3qksDNomJ3ZeMh+EtKhBDYQUXyATARqtOAeD/so0uvKENrjfduuEObsbLr0QtOnUonGqJytw/FGnddVSkPTx6ZoMNzpsVY6D/zsd+zMef1v5yvMkIDaXP5bYRpVEzj+TAx3Lgv5Xgnz7D9KX6ifzuTSnAAAAAElFTkSuQmCC" />
           </div>
         ))}
       </p>
@@ -99,4 +42,3 @@ function Todo() {
 }
 
 export default Todo;
-
